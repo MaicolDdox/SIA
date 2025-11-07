@@ -56,7 +56,7 @@
         @endif
 
         {{-- Formulario --}}
-        <div class="bg-card rounded-lg shadow-sm border border-border overflow-hidden">
+        <div class="bg-card rounded-lg shadow-sm border border-border">
 
             {{-- head del formulario --}}
             <div class="px-6 py-4 border-b border-border bg-muted/30">
@@ -340,8 +340,11 @@
                     option: function(data, escape) {
                         let description = '';
                         switch (data.value) {
+                            case 'director_semilleros':
+                                description = 'Gestionar semilleros y supervisa proyectos'
+                                break;
                             case 'lider_semillero':
-                                description = 'Gestiona semilleros y supervisa proyectos';
+                                description = 'Gestiona proyectos y integraciones con asociaciones';
                                 break;
                             case 'instructor_integrado':
                                 description = 'Guía y asesora en el desarrollo de proyectos';

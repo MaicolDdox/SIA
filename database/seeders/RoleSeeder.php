@@ -16,11 +16,11 @@ class RoleSeeder extends Seeder
         // -------------------------
         // Creación de Roles
         // -------------------------
-        $superAdmin = Role::create(['name' => 'super_admin']);
-        $directorSemilleros = Role::create(['name' => 'director_semilleros']);
-        $liderSemilleros = Role::create(['name' => 'lider_semilleros']);
-        $instructorIntegrado = Role::create(['name' => 'instructor_integrado']);
-        $aprendizIntegrado = Role::create(['name' => 'aprendiz_integrado']);
+        $superAdmin          = Role::create(['name'  => 'super_admin']);
+        $directorSemilleros  = Role::create(['name'  => 'director_semilleros']);
+        $liderSemilleros     = Role::create(['name'  => 'lider_semilleros']);
+        $instructorIntegrado = Role::create(['name'  => 'instructor_integrado']);
+        $aprendizIntegrado   = Role::create(['name'  => 'aprendiz_integrado']);
 
         // -------------------------
         // Creación de Permirsos
