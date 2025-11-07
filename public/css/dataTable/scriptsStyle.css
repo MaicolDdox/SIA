@@ -1,0 +1,67 @@
+/* Ajuste de la tabla para que respire mejor */
+
+#directoresTable {
+
+    border-spacing: 0;
+
+}
+
+
+#directoresTable th,
+
+#directoresTable td {
+
+    padding: 0.9rem 1rem;
+
+    vertical-align: middle;
+
+}
+
+
+/* Quita el fondo blanco por defecto del DataTable */
+
+#directoresTable_wrapper {
+
+    padding: 0.5rem 0.5rem 1rem 0.5rem;
+
+}
+
+
+/* Espaciado entre controles y tabla */
+
+div.dataTables_wrapper div.dataTables_length,
+
+div.dataTables_wrapper div.dataTables_filter {
+
+    margin-bottom: 1rem;
+
+}
+
+
+/* Centrar los botones de paginación */
+
+div.dataTables_wrapper div.dataTables_paginate {
+
+    margin-top: 0.75rem;
+
+}
+
+
+/* Mejora la apariencia de los botones de paginación */
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+
+    padding: 0.4rem 0.8rem;
+
+    border-radius: 0.5rem;
+
+    transition: background 0.2s;
+
+}
+
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+
+    background: rgba(0, 0, 0, 0.05);
+
+}

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Semillero;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -20,14 +21,14 @@ class UserRoleController extends Controller
             ->where('model_type', User::class)
             ->pluck('model_id')
             ->toArray();
-        
+
         $usuariosSinRol = User::whereNotIn('id', $userIdsWithRoles)
             ->with('dataUser') // Cargar la relación con data_users
             ->get();
 
         return view('container.director.create', compact('usuariosSinRol'));
     }
-    
+
 
     /**
      * Store a newly created role assignment.
@@ -42,13 +43,13 @@ class UserRoleController extends Controller
         try {
             // Buscar el usuario
             $user = User::findOrFail($request->user_id);
-            
+
             // Verificar que el usuario no tenga roles asignados usando Laravel Permission
             $hasRoles = \DB::table('model_has_roles')
                 ->where('model_type', User::class)
                 ->where('model_id', $user->id)
                 ->exists();
-                
+
             if ($hasRoles) {
                 return back()->with('error', 'El usuario ya tiene un rol asignado.');
             }

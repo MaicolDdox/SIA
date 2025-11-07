@@ -9,25 +9,42 @@ use Illuminate\Support\Facades\Hash;
 
 class DirectorController extends Controller
 {
-    public function index(Request $request)
+   public function index(Request $request)
     {
-        $q = trim($request->input('q', ''));
+        // Si la solicitud es AJAX, devolvemos JSON para DataTables
+        if ($request->ajax()) {
+            // Obtenemos los usuarios con rol 'lider_semilleros'
+            $lideres = User::role('lider_semilleros')
+                ->select(['id', 'name', 'email'])
+                ->get();
 
-        $liderSemilleros = User::role('lider_semilleros')
-            ->when($q, function ($query) use ($q) {
-                $query->where('name', 'like', "%{$q}%")
-                    ->orWhere('email', 'like', "%{$q}%");
-            })
-            ->latest('created_at')
-            ->paginate(10)
-            ->appends(['q' => $q]);
+            // Agregamos una columna personalizada 'acciones'
+            $lideres = $lideres->map(function ($lider) {
+                return [
+                    'id' => $lider->id,
+                    'name' => $lider->name,
+                    'email' => $lider->email,
+                    'acciones' => view('container.director.partials.actions', compact('lider'))->render(),
+                ];
+            });
 
-        return view('container.director.index', compact('liderSemilleros', 'q'));
+            // DataTables espera una clave 'data'
+            return response()->json(['data' => $lideres]);
+        }
+
+        // Si no es AJAX, cargamos la vista normalmente
+        return view('container.director.index');
     }
 
     public function create()
     {
         return view('container.director.create');
+    }
+
+    public function show($id)
+    {
+        $integrante = User::findOrFail($id);
+        return view('container.director.show');
     }
 
     public function store(Request $request)

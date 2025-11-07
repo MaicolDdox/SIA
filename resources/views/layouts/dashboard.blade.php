@@ -39,11 +39,13 @@
                             No tienes un rol configurado en el sistema.
                             <span class="font-medium">Contacta al administrador</span> para continuar.
                         </div>
-                    </div>
+                    </div><hr>
                     <nav class="flex-1 p-4 overflow-y-auto">
-                        @include('partials.logout')
+                        @include('menu.semilleros')
 
                         @include('menu.data_user')
+
+                        @include('partials.logout')
                     </nav>
             </aside>
 

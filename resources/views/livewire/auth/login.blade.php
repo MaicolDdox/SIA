@@ -56,8 +56,25 @@
 
         <!-- Enhanced submit button with SENA styling -->
         <button type="submit"
-            class="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-            data-aos="zoom-in" data-aos-duration="600" data-aos-delay="1500">
+            class="w-full
+            bg-emerald-100
+            hover:bg-primary/90
+            text-gray-500
+            font-semibold
+            py-3
+            px-4
+            rounded-lg
+            transition-all
+            duration-200
+            transform
+            hover:scale-[1.02]
+            focus:outline-none
+            focus:ring-2
+            focus:ring-primary
+            focus:ring-offset-2"
+            data-aos="zoom-in"
+            data-aos-duration="600"
+            data-aos-delay="1500">
             Iniciar Sesión
         </button>
     </form>
@@ -68,6 +85,12 @@
             <a href="{{ route('register') }}" wire:navigate
                 class="text-primary hover:text-primary/80 font-medium transition-colors duration-200">
                 Registrarse
+            </a>
+        </p>
+        <p class="text-sm text-muted-foreground">
+            ¿Quieres regresar?
+            <a href="{{ route('home') }}" wire:navigate class="text-primary hover:text-primary/80 font-medium transition-colors duration-200">
+                Home
             </a>
         </p>
     </div>

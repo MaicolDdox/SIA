@@ -128,7 +128,7 @@
                                         d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                             </div>
-                            <input name="password_confirmation" type="password" id="password_confirmation" 
+                            <input name="password_confirmation" type="password" id="password_confirmation"
                                 autocomplete="new-password" placeholder="Confirma tu contraseña"
                                 class="input-focus w-full pl-10 pr-4 py-3 border border-border rounded-lg bg-background text-foreground placeholder-muted-foreground focus:outline-none" />
                             @error('password_confirmation')

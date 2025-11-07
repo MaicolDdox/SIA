@@ -5,7 +5,7 @@
         Semilleros
     </h3>
     <ul class="space-y-1">
-        @can('semilleros.index')
+
             <li>
                 <a href="{{ route('semilleros.index') }}"
                     class="sidebar-item flex items-center px-4 py-3 text-sm rounded-lg {{ request()->routeIs('semilleros.index') ? 'active' : 'text-muted-foreground hover:text-foreground' }}">
@@ -16,14 +16,13 @@
                     Ver Semilleros
                 </a>
             </li>
-        @endcan
 
         <!--
             =============================================================
             MENU PARA PODER AGREGAR UNA SECCION PARA CREAR LOS SEMILLEROS
             DESCOMENTAR PARA PODER ACTIVARLO
             =============================================================
-            
+
             @can('semilleros.create')
     <li>
                         <a href="{{ route('semilleros.create') }}"
