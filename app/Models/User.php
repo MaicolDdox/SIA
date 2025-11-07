@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -53,7 +54,7 @@ class User extends Authenticatable
             ->withPivot('is_director', 'joined_at', 'left_at');
     }
 
-    public function dataUser()
+    public function dataUser():HasOne
     {
         return $this->hasOne(DataUser::class);
     }

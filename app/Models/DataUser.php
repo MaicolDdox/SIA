@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DataUser extends Model
 {
@@ -22,10 +23,13 @@ class DataUser extends Model
         'ficha_programa',
         'apoyos',
         'formato_registro',
+        'semillero_name',
+        'proyecto_titulo',
+        'proyecto_descripccion',
     ];
 
     // Relación con User
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

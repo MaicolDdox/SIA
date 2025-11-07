@@ -26,20 +26,20 @@ class RoleSeeder extends Seeder
         // Creación de Permirsos
         // -------------------------
 
-        // Permisos para semilleros 
+        // Permisos para semilleros
         Permission::create(['name' => 'semilleros.index']);
         Permission::create(['name' => 'semilleros.create']);
         Permission::create(['name' => 'semilleros.edit']);
         Permission::create(['name' => 'semilleros.delete']);
 
-        // Permisos para directores 
+        // Permisos para directores
         Permission::create(['name' => 'directores.index']);
         Permission::create(['name' => 'directores.create']);
         Permission::create(['name' => 'directores.edit']);
         Permission::create(['name' => 'directores.delete']);
         Permission::create(['name' => 'directores.history']); // historial de asignaciones
 
-        // Permisos para integrantes 
+        // Permisos para integrantes
         Permission::create(['name' => 'integrantes.index']);
         Permission::create(['name' => 'integrantes.create']);
         Permission::create(['name' => 'integrantes.edit']);
@@ -61,9 +61,14 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'projects.advance']);
         Permission::create(['name' => 'projects.report']);
 
-        
         // Permisos para events (calendario)
         Permission::create(['name' => 'events.index']);
+
+        // Permisos para datos extra de cuenta
+        Permission::create(['name' => 'datos_extra_director_semilleros']);
+        Permission::create(['name' => 'datos_extra_lider_semilleros']);
+        Permission::create(['name' => 'datos_extra_aprendiz_integrado']);
+        Permission::create(['name' => 'datos_extra_instructor_integrado']);
 
 
         // -------------------------
@@ -89,6 +94,7 @@ class RoleSeeder extends Seeder
             'projects.index',
             'projects.report',
             'events.index',
+            'datos_extra_director_semilleros',
         ]);
 
         // Director de grupo
@@ -111,6 +117,7 @@ class RoleSeeder extends Seeder
             'projects.advance',
             'projects.report',
             'events.index',
+            'datos_extra_lider_semilleros',
         ]);
 
         //instructor integrado
@@ -119,6 +126,7 @@ class RoleSeeder extends Seeder
             'project_integrantes.index',
             'projects.index',
             'events.index',
+            'datos_extra_instructor_integrado',
         ]);
 
         // Aprendiz integrado
@@ -127,6 +135,7 @@ class RoleSeeder extends Seeder
             'project_integrantes.index',
             'projects.index',
             'events.index',
+            'datos_extra_aprendiz_integrado',
         ]);
     }
 }

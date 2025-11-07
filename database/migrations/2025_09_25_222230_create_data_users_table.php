@@ -36,9 +36,14 @@ return new class extends Migration
             $table->string('telefono');
 
             // Datos de formación
-            $table->enum('tipo_programa', ['tecnico', 'tecnologo', 'complementaria']);
-            $table->string('programa_formacion');
-            $table->string('ficha_programa');
+            $table->enum('tipo_programa', ['tecnico', 'tecnologo', 'complementaria'])->nullable();
+            $table->string('programa_formacion')->nullable();
+            $table->string('ficha_programa')->nullable();
+
+            //Datos de semillero y proyecto
+            $table->string('semillero_name')->nullable();
+            $table->string('proyecto_titulo')->nullable();
+            $table->text('proyecto_descripccion')->nullable();
 
             // Otros campos
             $table->string('apoyos')->nullable();          // Apoyos que recibe

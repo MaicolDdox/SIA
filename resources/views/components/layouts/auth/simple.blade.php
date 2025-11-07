@@ -17,7 +17,7 @@
         rel="stylesheet" />
 
     <!-- Tailwind CSS with SENA configuration -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="{{ asset('js/app.js') }}"></script>
 
     <!-- Styles personalisados css -->

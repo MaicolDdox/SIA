@@ -54,24 +54,25 @@ Route::middleware(['auth'])->group(function () {
     // -------------------------
     // Rutas de Proyectos
     // -------------------------
-    Route::resource('projects', ProjectController::class);
     Route::post('projects/{project}/advance', [ProjectController::class, 'advance'])->name('projects.advance');
 
     Route::post('projects/{project}/fases/{fase}/documento', [ProjectController::class, 'storeFaseDocumento'])
         ->name('projects.fases.documento.store');
 
-    Route::delete('projects/{project}/fases/{fase}/documento', [ProjectController::class, 'destroyFaseDocumento'])
-        ->name('projects.fases.documento.destroy');
+     Route::delete('projects/{project}/fases/{fase}/documento', [ProjectController::class, 'destroyFaseDocumento'])
+     ->name('projects.fases.documento.destroy');
 
-    Route::prefix('projects/{project}')->group(function () {
-        Route::post('/files', [ProjectFileController::class, 'store'])->name('projects.files.store');
-    });
+     Route::prefix('projects/{project}')->group(function () {
+         Route::post('/files', [ProjectFileController::class, 'store'])->name('projects.files.store');
+     });
 
-    Route::get('/files/{file}/download', [ProjectFileController::class, 'download'])
-        ->name('projects.files.download');
+     Route::get('/files/{file}/download', [ProjectFileController::class, 'download'])
+     ->name('projects.files.download');
+     
+     Route::delete('/files/{file}', [ProjectFileController::class, 'destroy'])
+     ->name('projects.files.destroy');
 
-    Route::delete('/files/{file}', [ProjectFileController::class, 'destroy'])
-        ->name('projects.files.destroy');
+    Route::resource('projects', ProjectController::class);
 
     // asociar aprendices con proyectos
     Route::get('/project-integrantes', [ProjectIntegranteController::class, 'index'])

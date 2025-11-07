@@ -27,11 +27,6 @@ class AprendizController extends Controller
         return view('container.integrantes.index', compact('users', 'q'));
     }
 
-    public function create()
-    {
-        return view('container.integrantes.create');
-    }
-
     public function store(Request $request)
     {
         $request->validate([
@@ -56,6 +51,13 @@ class AprendizController extends Controller
         $aprendiz = User::findOrFail($id);
 
         return view('container.integrantes.edit', compact('aprendiz'));
+    }
+
+    public function show($id)
+    {
+        $integrante = User::findOrFail($id);
+
+        return view('container.integrantes.show', compact('integrante'));
     }
 
     public function update(Request $request, $id)
