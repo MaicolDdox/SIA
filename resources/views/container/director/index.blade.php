@@ -14,8 +14,16 @@
                 </div>
                 <div class="flex items-center space-x-2">
                     <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        <svg
+                            class="w-6 h-6 text-primary"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24">
+
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
                                   d="M16 7a4 4 0 11-8 0 4 4 0
                                   018 0zM12 14a7 7 0 00-7 7h14a7
                                   7 0 00-7-7z" />
@@ -24,6 +32,30 @@
                 </div>
             </div>
         </div>
+
+        {{-- Mensajes de éxito --}}
+        @if (session('success'))
+            <div class="mb-6 bg-primary/10 border border-primary/20 text-primary px-4 py-4 rounded-lg">
+                <div class="flex items-start space-x-3">
+                    <svg
+                        class="w-5 h-5 flex-shrink-0 mt-0.5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24">
+
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18
+                            0 9 9 0 0118 0z" />
+                    </svg>
+                    <div>
+                        <p class="font-medium">{{ session('success') }}</p>
+                    </div>
+                </div>
+            </div>
+        @endif
 
         <div class="px-6 py-4 border-b border-border bg-muted/30">
             <div class="flex items-center justify-between">

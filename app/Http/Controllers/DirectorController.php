@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
 
@@ -68,7 +69,14 @@ class DirectorController extends Controller
 
     public function edit(User $directore)
     {
-        return view('container.director.edit', compact('directore'));
+        $rolName = $directore->roles->first()->name;
+
+        switch ($rolName) {
+            case 'lider_semilleros':
+                $nameRol = 'Lider de Semilleros';
+                break;
+        }
+        return view('container.director.edit', compact('directore', 'nameRol'));
     }
 
     public function update(Request $request, User $directore)
@@ -77,6 +85,7 @@ class DirectorController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,'.$directore->id,
             'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
+            'rol' => 'required|in:director_semilleros,lider_semillero,instructor_integrado,aprendiz_integrado',
         ]);
 
         $data = [
@@ -89,8 +98,28 @@ class DirectorController extends Controller
             $data['password'] = Hash::make($validated['password']);
         }
 
+        //verificamos que antes de cambiar el rol lider de semilleros
+        //no tenga proyectos pendientes o que no tenga proyectos creados
+
+        $verifyProject = DB::table('projects')
+                        ->where('director_id', $directore->id)
+                        ->exists();
+
+        if ($verifyProject) {
+            return redirect()->route('directores.edit', $directore->id)
+                             ->with('error', 'no se puede cambiar de rol, por que tiene proyectos creados');
+        }
+
+        //quitamos el rol
+        $directore->removeRole($directore->roles);
+
+        //agregamos nuevo rol
+        $directore->assignRole($validated['rol']);
+
+        //actualizamos datos
         $directore->update($data);
 
+        //retornamos vista de la tabla con mensaje de exito
         return redirect()->route('directores.index')->with('success', 'Director actualizado correctamente.');
     }
 

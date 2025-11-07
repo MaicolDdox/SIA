@@ -1,5 +1,9 @@
 @extends('layouts.dashboard')
 @section('content')
+
+<!-- TomSelect CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">
+
     <div class="max-w-4xl mx-auto">
 
         <!-- header -->
@@ -31,28 +35,19 @@
             </div>
         </div>
 
-        <!-- errores -->
-        @if ($errors->any())
-            <div class="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-4 rounded-lg">
+        <!-- Mensaje de error -->
+        @if (session('error'))
+            <div class="mb-6 bg-red-100 border border-red-300 px-4 py-4 rounded-lg">
                 <div class="flex items-start space-x-3">
-                    <svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
                     <div>
-                        <h4 class="font-semibold mb-2">Ups! Hubo algunos problemas con los datos ingresados:</h4>
-                        <ul class="list-disc list-inside space-y-1 text-sm">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
+                        <p class="text-red-500 text-sm mt-1">{{ session('error') }}</p>
                     </div>
                 </div>
             </div>
         @endif
 
         <!-- contenedor tipo card -->
-        <div class="bg-card rounded-lg shadow-sm border border-border overflow-hidden">
+        <div class="bg-card rounded-lg shadow-sm border border-border ">
             <div class="px-6 py-4 border-b border-border bg-muted/30">
                 <h3 class="text-lg font-semibold text-foreground">Información del Lider de semilleros</h3>
                 <p class="text-sm text-muted-foreground">Actualice los datos del Lider de semilleros {{ $directore->name }}
@@ -218,6 +213,36 @@
                                 @enderror
                             </div>
                         </div>
+
+                        {{-- rol --}}
+                        <div class="space-y-2">
+                            <label
+                            for="semillero_name"
+                            class="text-sm font-medium text-foreground">
+                                    Rol
+                            </label>
+                            <select
+                                name="rol"
+                                id="rol"
+                                class="w-full px-4 py-3 border border-border rounded-lg
+                                focus:ring-2 focus:ring-primary/20 focus:border-primary
+                                transition-colors duration-200 bg-background"
+                                required>
+                                <option disabled selected>{{ $nameRol }}</option>
+                                @can('directores.create')
+                                    <option value="lider_semillero">Líder de Semillero</option>
+                                @endcan
+                                @can('integrantes.create')
+                                    <option value="instructor_integrado">Instructor Integrado</option>
+                                    <option value="aprendiz_integrado">Aprendiz Integrado</option>
+                                @endcan
+                                @role('super_admin')
+                                    <option value="director_semilleros">Director de Semilleros</option>
+                                @endrole
+                            </select>
+                            <p class="mt-2 text-sm text-muted-foreground">Elige el rol que se asignará al usuario
+                                seleccionado</p>
+                        </div>
                     </div>
 
                     {{-- boton de cancelar formulario --}}
@@ -303,4 +328,45 @@
             </div>
         </div>
     </div>
+
+     <!-- TomSelect JS -->
+    <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            // Select para roles
+            new TomSelect("#rol", {
+                create: false,
+                sortField: {
+                    field: "text",
+                    direction: "asc"
+                },
+                placeholder: "Seleccione un rol...",
+                render: {
+                    option: function(data, escape) {
+                        let description = '';
+                        switch (data.value) {
+                            case 'director_semilleros':
+                                description = 'Gestionar semilleros y supervisa proyectos'
+                                break;
+                            case 'lider_semillero':
+                                description = 'Gestiona proyectos y integraciones con asociaciones';
+                                break;
+                            case 'instructor_integrado':
+                                description = 'Guía y asesora en el desarrollo de proyectos';
+                                break;
+                            case 'aprendiz_integrado':
+                                description = 'Participa activamente en proyectos de investigación';
+                                break;
+                        }
+                        return '<div class="py-2 px-3 hover:bg-gray-100">' +
+                            '<div class="font-medium">' + escape(data.text) + '</div>' +
+                            '<div class="text-sm text-gray-600">' + description + '</div>' +
+                            '</div>';
+                    }
+                }
+            });
+        });
+    </script>
 @endsection

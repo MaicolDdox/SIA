@@ -42,7 +42,7 @@
                     </div>
                 </div>
             </div>
-        @endif
+        @endif  
 
         {{-- Contenedor tabla --}}
         <div class="bg-card rounded-lg shadow-sm border border-border overflow-hidden">
