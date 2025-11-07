@@ -37,7 +37,7 @@ class UserRoleController extends Controller
     {
         $request->validate([
             'user_id' => 'required|exists:users,id',
-            'rol' => 'required|in:lider_semillero,instructor_integrado,aprendiz_integrado'
+            'rol' => 'required|in:director_semilleros,lider_semillero,instructor_integrado,aprendiz_integrado'
         ]);
 
         try {

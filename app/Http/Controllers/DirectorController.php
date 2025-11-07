@@ -89,7 +89,7 @@ class DirectorController extends Controller
             $data['password'] = Hash::make($validated['password']);
         }
 
-         $directore->update($data);
+        $directore->update($data);
 
         return redirect()->route('directores.index')->with('success', 'Director actualizado correctamente.');
     }
