@@ -1,30 +1,32 @@
 @extends('layouts.dashboard')
 @section('content')
-    <div class="max-w-6xl mx-auto">
-        {{-- Reemplazando header básico con diseño SENA profesional --}}
+    {{-- Contenedor principal --}}
+    <div class="max-w-7xl mx-auto">
+
+        {{-- Encabezado --}}
         <div class="mb-8">
             <div class="flex items-center justify-between">
                 <div>
-                    <h1 class="text-3xl font-bold text-foreground mb-2">Lista de Integrante</h1>
-                    <p class="text-muted-foreground">Gestiona y administra los Integrante registrados en el sistema CEFA</p>
+                    <h1 class="text-3xl font-bold text-foreground mb-2">Gestión de Integrantes</h1>
+                    <p class="text-muted-foreground">Administra los integrantes del CEFA</p>
                 </div>
-                <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-2">
                     <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                        <svg
+                            class="w-6 h-6 text-primary"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24">
+
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                  d="M16 7a4 4 0 11-8 0 4 4 0
+                                  018 0zM12 14a7 7 0 00-7 7h14a7
+                                  7 0 00-7-7z" />
                         </svg>
                     </div>
-                    @can('integrantes.create')
-                        <a href="{{ route('container.director.create') }}"
-                            class="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2 shadow-sm hover:shadow-md">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                            </svg>
-                            <span>Nuevo Integrante</span>
-                        </a>
-                    @endcan
                 </div>
             </div>
         </div>
@@ -33,49 +35,72 @@
         @if (session('success'))
             <div class="mb-6 bg-primary/10 border border-primary/20 text-primary px-4 py-4 rounded-lg">
                 <div class="flex items-start space-x-3">
-                    <svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <svg
+                        class="w-5 h-5 flex-shrink-0 mt-0.5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24">
+
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18
+                            0 9 9 0 0118 0z" />
                     </svg>
                     <div>
                         <p class="font-medium">{{ session('success') }}</p>
                     </div>
                 </div>
             </div>
-        @endif  
+        @endif
+
+        <div class="px-6 py-4 border-b border-border bg-muted/30">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                        <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2
+                                  2H5a2 2 0 01-2-2v-6a2 2 0
+                                  012-2m14 0V9a2 2 0 00-2-2M5
+                                  11V9a2 2 0 012-2m0 0V5a2 2 0
+                                  012-2h6a2 2 0 012 2v2M7 7h10" />
+                        </svg>
+                    </div>
+                    <h2 class="text-lg font-semibold text-foreground">Integrantes</h2>
+                </div>
+
+                {{-- Botón a la derecha --}}
+                @can('integrantes.create')
+                    <a href="{{ route('container.director.create') }}"
+                       class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-medium
+                       transition-all duration-200 flex items-center space-x-2 shadow-sm hover:shadow-md">
+
+                       <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24">
+
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        <span>Nuevo Integrante</span>
+                    </a>
+                @endcan
+            </div>
+        </div>
+    </div>
+
+
+
 
         {{-- Contenedor tabla --}}
         <div class="bg-card rounded-lg shadow-sm border border-border overflow-hidden">
-            <div class="px-6 py-4 border-b border-border bg-muted/30">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h3 class="text-lg font-semibold text-foreground">Integrante Registrados</h3>
-
-                        {{-- Buscador --}}
-                        <form id="searchForm" action="{{ route('aprendices.index') }}" method="GET">
-                            <div class="relative">
-                                <input type="text" name="q" id="search" value="{{ request('q') }}"
-                                    placeholder="Buscar Integrante..."
-                                    class="pl-10 pr-4 py-2 rounded-lg border border-border bg-background text-sm focus:ring-2 focus:ring-primary focus:outline-none w-64">
-                                <svg class="w-4 h-4 absolute left-3 top-2.5 text-muted-foreground" fill="none"
-                                    stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z" />
-                                </svg>
-                            </div>
-                        </form>
-
-                        <p class="text-sm text-muted-foreground">{{ $users->total() }} Integrante en total</p>
-                    </div>
-                    <div class="flex items-center space-x-2 text-sm text-muted-foreground">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                        </svg>
-                        <span>Gestión de Integrante</span>
-                    </div>
-                </div>
-            </div>
 
             <div class="overflow-x-auto">
                 <table class="w-full">
@@ -214,70 +239,4 @@
             </div>
         @endif
 
-        {{-- SCRIPT: debounce 150ms + previene submit del form (enter) --}}
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const input = document.getElementById('search');
-                const form = document.getElementById('searchForm');
-                const table = document.getElementById('aprendicesTable'); // **ID agregado**
-                const pagination = document.getElementById('pagination'); // **ID agregado**
-                let timer = null,
-                    controller = null;
-                const DEBOUNCE = 150; // ms -> ajusta a 100 o 0 si quieres aún más "instantáneo"
-
-                // prevenir submit tradicional al presionar Enter
-                if (form) {
-                    form.addEventListener('submit', (e) => {
-                        e.preventDefault();
-                        ajaxLoad(buildUrl());
-                    });
-                }
-
-                function ajaxLoad(url) {
-                    if (controller) controller.abort();
-                    controller = new AbortController();
-
-                    fetch(url, {
-                            headers: {
-                                'X-Requested-With': 'XMLHttpRequest'
-                            },
-                            signal: controller.signal
-                        })
-                        .then(r => r.text())
-                        .then(html => {
-                            const doc = new DOMParser().parseFromString(html, 'text/html');
-                            const newTable = doc.getElementById('aprendicesTable');
-                            const newPagination = doc.getElementById('pagination');
-                            if (newTable && table) table.innerHTML = newTable.innerHTML;
-                            if (pagination) pagination.innerHTML = newPagination ? newPagination.innerHTML : '';
-                            bindPaginationLinks();
-                        })
-                        .catch(err => {
-                            if (err.name !== 'AbortError') console.error(err);
-                        });
-                }
-
-                function buildUrl() {
-                    const params = new URLSearchParams(new FormData(form));
-                    return `${form.action}?${params.toString()}`;
-                }
-
-                function bindPaginationLinks() {
-                    document.querySelectorAll('#pagination a').forEach(a => {
-                        a.addEventListener('click', e => {
-                            e.preventDefault();
-                            ajaxLoad(a.href);
-                        });
-                    });
-                }
-
-                if (input) {
-                    input.addEventListener('input', () => {
-                        clearTimeout(timer);
-                        timer = setTimeout(() => ajaxLoad(buildUrl()), DEBOUNCE);
-                    });
-                }
-                bindPaginationLinks();
-            });
-        </script>
-    @endsection
+@endsection
