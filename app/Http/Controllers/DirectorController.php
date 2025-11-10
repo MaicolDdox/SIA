@@ -22,9 +22,9 @@ class DirectorController extends Controller
             // Agregamos una columna personalizada 'acciones'
             $lideres = $lideres->map(function ($lider) {
                 return [
-                    'id' => $lider->id,
-                    'name' => $lider->name,
-                    'email' => $lider->email,
+                    'id'       => $lider->id,
+                    'name'     => $lider->name,
+                    'email'    => $lider->email,
                     'acciones' => view('container.director.partials.actions', compact('lider'))->render(),
                 ];
             });
