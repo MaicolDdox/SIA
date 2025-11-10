@@ -1,281 +1,205 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <div class="max-w-6xl mx-auto">
-        {{-- Header mejorado con iconografía SENA específica para semilleros --}}
+
+    {{-- Contenedor principal --}}
+    <div class="max-w-7xl mx-auto">
+
+        {{-- Encabezado --}}
         <div class="mb-8">
             <div class="flex items-center justify-between">
                 <div>
                     <h1 class="text-3xl font-bold text-foreground mb-2">Gestión de Semilleros</h1>
-                    <p class="text-muted-foreground">Administra los grupos de semilleros de investigación del SIA</p>
+                    <p class="text-muted-foreground">Administra los semilleros de investigacion del CEFA</p>
                 </div>
-                <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                    </svg>
+                <div class="flex items-center space-x-2">
+                    <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                        <svg
+                            class="w-6 h-6 text-primary"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24">
+
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                  d="M16 7a4 4 0 11-8 0 4 4 0
+                                  018 0zM12 14a7 7 0 00-7 7h14a7
+                                  7 0 00-7-7z" />
+                        </svg>
+                    </div>
                 </div>
             </div>
         </div>
 
-        {{-- Mejorando mensaje de éxito con diseño SENA --}}
+        {{-- Mensajes de éxito --}}
         @if (session('success'))
-            <div class="mb-6 bg-primary/10 border border-primary/20 rounded-lg p-4">
-                <div class="flex items-center space-x-3">
-                    <svg class="w-5 h-5 text-primary flex-shrink-0" fill="none" stroke="currentColor"
+            <div class="mb-6 bg-primary/10 border border-primary/20 text-primary px-4 py-4 rounded-lg">
+                <div class="flex items-start space-x-3">
+                    <svg
+                        class="w-5 h-5 flex-shrink-0 mt-0.5"
+                        fill="none"
+                        stroke="currentColor"
                         viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18
+                            0 9 9 0 0118 0z" />
                     </svg>
-                    <p class="text-primary font-medium">{{ session('success') }}</p>
+                    <div>
+                        <p class="font-medium">{{ session('success') }}</p>
+                    </div>
                 </div>
             </div>
         @endif
 
-        {{-- Contenedor principal con diseño SENA --}}
-        <div class="bg-card rounded-lg shadow-sm border border-border overflow-hidden">
-            {{-- Header de la tabla con botón de acción mejorado y formulario de búsqueda agregado --}}
-            <div class="px-6 py-4 border-b border-border bg-muted/30">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
-                            <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-semibold text-foreground">Listado de Semilleros</h3>
-                            <form id="searchForm" action="{{ route('semilleros.index') }}" method="GET" class="mt-2 mb-2">
-                                <div class="flex items-center space-x-2">
-                                    <div class="relative">
-                                        <svg class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground"
-                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                        </svg>
-                                        <input type="text" name="q" id="search" value="{{ request('q') }}"
-                                            placeholder="Buscar semillero..."
-                                            class="pl-10 pr-4 py-2 border border-border rounded-lg bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors duration-200 w-64">
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+        <div class="px-6 py-4 border-b border-border bg-muted/30">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                        <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2
+                                  2H5a2 2 0 01-2-2v-6a2 2 0
+                                  012-2m14 0V9a2 2 0 00-2-2M5
+                                  11V9a2 2 0 012-2m0 0V5a2 2 0
+                                  012-2h6a2 2 0 012 2v2M7 7h10" />
+                        </svg>
                     </div>
-                    @can('semilleros.create')
-                        <a href="{{ route('semilleros.create') }}"
-                            class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2 shadow-sm hover:shadow-md">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                            </svg>
-                            <span>Nuevo Semillero</span>
-                        </a>
-                    @endcan
+                    <h2 class="text-lg font-semibold text-foreground">Semilleros De Investigacion</h2>
                 </div>
+
+                {{-- Botón a la derecha --}}
+                @can('semilleros.create')
+                    <a href="{{ route('semilleros.create') }}"
+                       class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-medium
+                       transition-all duration-200 flex items-center space-x-2 shadow-sm hover:shadow-md">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        <span>Nuevo Semillero</span>
+                    </a>
+                @endcan
             </div>
-
-            {{-- Tabla rediseñada con estilo SENA profesional y botones de acción mejorados --}}
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-border">
-                    <thead class="bg-muted/50">
-                        <tr>
-                            <th
-                                class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                                #</th>
-                            <th
-                                class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                                Semillero</th>
-                            <th
-                                class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                                Descripción</th>
-                            <th
-                                class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                                Fecha Creación</th>
-                            <th
-                                class="px-6 py-3 text-center text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                                Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="semillerosTable" class="bg-card divide-y divide-border">
-                        @forelse ($semilleros as $index => $semillero)
-                            <tr class="hover:bg-muted/30 transition-colors duration-150">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">{{ $loop->iteration }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center space-x-3">
-                                        <div
-                                            class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden">
-                                            {{-- Avatar de la imagen --}}
-                                            @if ($semillero->imagen)
-                                                <img src="{{ asset('storage/' . $semillero->imagen) }}"
-                                                    alt="Imagen del semillero" class="w-full h-full object-cover">
-                                            @else
-                                                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                                                </svg>
-                                            @endif
-                                        </div>
-
-                                        <div>
-                                            <div class="text-sm font-medium text-foreground">{{ $semillero->titulo }}</div>
-                                            <div class="text-xs text-muted-foreground">Semillero de Investigación</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="text-sm text-foreground max-w-xs">
-                                        {{ Str::limit($semillero->descripcion, 60) }}
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">
-                                    {{ $semillero->created_at->format('d/m/Y') }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-center">
-                                    <div class="flex justify-center items-center space-x-2">
-                                        {{-- Botón Ver con icono --}}
-                                        <a href="{{ route('semilleros.show', $semillero) }}"
-                                            class="bg-blue-100 hover:bg-blue-200 text-blue-700 p-2 rounded-lg transition-colors duration-200 group"
-                                            title="Ver detalles del semillero">
-                                            <svg class="w-4 h-4 group-hover:scale-110 transition-transform duration-200"
-                                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                            </svg>
-                                        </a>
-                                        @can('semilleros.create')
-                                            {{-- Botón Editar con icono --}}
-                                            <a href="{{ route('semilleros.edit', $semillero) }}"
-                                                class="bg-amber-100 hover:bg-amber-200 text-amber-700 p-2 rounded-lg transition-colors duration-200 group"
-                                                title="Editar semillero">
-                                                <svg class="w-4 h-4 group-hover:scale-110 transition-transform duration-200"
-                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                                </svg>
-                                            </a>
-                                            {{-- Botón Eliminar con icono --}}
-                                            <form action="{{ route('semilleros.destroy', $semillero) }}" method="POST"
-                                                class="inline"
-                                                onsubmit="return confirm('¿Seguro que deseas eliminar este semillero?');">
-                                                @csrf @method('DELETE')
-                                                <button type="submit"
-                                                    class="bg-red-100 hover:bg-red-200 text-red-700 p-2 rounded-lg transition-colors duration-200 group"
-                                                    title="Eliminar semillero">
-                                                    <svg class="w-4 h-4 group-hover:scale-110 transition-transform duration-200"
-                                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                    </svg>
-                                                </button>
-                                            </form>
-                                        @endcan
-                                    </div>
-                                </td>
-                            </tr>
-                        @empty
-                            {{-- Estado vacío rediseñado con call-to-action SENA --}}
-                            <tr>
-                                <td colspan="5" class="px-6 py-12 text-center">
-                                    <div class="flex flex-col items-center space-y-4">
-                                        <div class="w-16 h-16 bg-muted rounded-full flex items-center justify-center">
-                                            <svg class="w-8 h-8 text-muted-foreground" fill="none"
-                                                stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <h3 class="text-lg font-medium text-foreground mb-1">No hay semilleros
-                                                registrados</h3>
-                                            <p class="text-muted-foreground mb-4">Comienza creando tu primer semillero de
-                                                investigación</p>
-                                            @can('semilleros.create')
-                                                <a href="{{ route('semilleros.create') }}"
-                                                    class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 inline-flex items-center space-x-2">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                        viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                            d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                                    </svg>
-                                                    <span>Crear Primer Semillero</span>
-                                                </a>
-                                            @endcan
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-
-            {{-- Paginación mejorada con diseño SENA y queryString --}}
-            @if ($semilleros->hasPages())
-                <div id="pagination" class="px-6 py-4 border-t border-border bg-muted/30">
-                    {{ $semilleros->withQueryString()->links() }}
-                </div>
-            @endif
         </div>
     </div>
 
+    {{-- Tabla AJAX --}}
+    <div class="mt-6 bg-card rounded-lg shadow-sm border border-border p-4">
+        <div class="overflow-x-auto rounded-lg">
+            <table id="semillerosTable" class="w-full text-sm text-left border-collapse">
+                <thead class="bg-muted/50">
+                    <tr>
+                        <th class="px-4 py-3 text-foreground font-semibold"></th>
+                        <th class="px-4 py-3 text-foreground font-semibold">Logo Tipo</th>
+                        <th class="px-4 py-3 text-foreground font-semibold">Semillero</th>
+                        <th class="px-4 py-3 text-foreground font-semibold">Descripccion</th>
+                        <th class="px-4 py-3 text-foreground font-semibold">Fecha de Creacion</th>
+                        <th class="px-4 py-3 text-foreground font-semibold">Acciones</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+    {{-- ================== CDNs & SCRIPT ================== --}}
+    <link rel="stylesheet" href="{{ asset('css/dataTable/scriptsStyle.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.7/js/dataTables.min.js"></script>
+
     {{-- Script búsqueda + paginación AJAX --}}
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const input = document.getElementById('search');
-            const form = document.getElementById('searchForm');
-            const table = document.getElementById('semillerosTable');
-            const pagination = document.getElementById('pagination');
-            let timer = null,
-                controller = null;
+        $(document).ready(function() {
+            const table = $('#semillerosTable').DataTable({
+                processing: true,
+                serverSide: false,
+                ajax: '{{ route("semilleros.index") }}',
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {
+                        data: 'imagen',
+                        name: 'imagen',
+                        render: function(data) {
+                            return `
+                                <div class="flex items-center justify-center">
+                                    <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-300">
+                                        <img
+                                            src="${data}"
+                                            alt="Imagen"
+                                            class="object-cover w-full h-full">
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    },
+                    {
+                        data: 'titulo',
+                        name: 'titulo',
+                        render: function(data) {
+                            return `
+                                <div class="flex items-center space-x-2">
+                                    <svg class="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M3 8l7.89 4.26a2 2 0 002.22
+                                              0L21 8M5 19h14a2 2 0 002-2V7a2 2 0
+                                              00-2-2H5a2 2 0 01-2 2v10a2 2 0
+                                              002 2z" />
+                                    </svg>
+                                    <span class="text-sm text-foreground">${data}</span>
+                                </div>`;
+                        }
+                    },
+                    {
+                        data: 'descripcion',
+                        name: 'descripcion',
+                        render: function(data) {
+                            return `
+                                <div class="flex items-center space-x-2">
+                                    <svg class="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M3 8l7.89 4.26a2 2 0 002.22
+                                              0L21 8M5 19h14a2 2 0 002-2V7a2 2 0
+                                              00-2-2H5a2 2 0 01-2 2v10a2 2 0
+                                              002 2z" />
+                                    </svg>
+                                    <span class="text-sm text-foreground">${data}</span>
+                                </div>`;
+                        }
+                    },
+                    {
+                        data: 'fecha',
+                        name: 'fecha',
+                        render: function(data) {
+                            return `
+                                <div class="flex items-center space-x-2">
+                                    <svg class="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M3 8l7.89 4.26a2 2 0 002.22
+                                              0L21 8M5 19h14a2 2 0 002-2V7a2 2 0
+                                              00-2-2H5a2 2 0 01-2 2v10a2 2 0
+                                              002 2z" />
+                                    </svg>
+                                    <span class="text-sm text-foreground">${data}</span>
+                                </div>`;
+                        }
+                    },
+                    { data: 'acciones', name: 'acciones', orderable: false, searchable: false }
+                ],
+                language: { url: '/datatables/i18n/es-ES.json' },
+                pageLength: 10,
+                responsive: true
+            });
 
-            function ajaxLoad(url) {
-                if (controller) controller.abort();
-                controller = new AbortController();
-
-                fetch(url, {
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest'
-                        },
-                        signal: controller.signal
-                    })
-                    .then(r => r.text())
-                    .then(html => {
-                        const doc = new DOMParser().parseFromString(html, 'text/html');
-                        const newTable = doc.getElementById('semillerosTable');
-                        const newPagination = doc.getElementById('pagination');
-                        if (newTable && table) table.innerHTML = newTable.innerHTML;
-                        if (pagination) pagination.innerHTML = newPagination ? newPagination.innerHTML : '';
-                        bindPaginationLinks();
-                    })
-                    .catch(err => {
-                        if (err.name !== 'AbortError') console.error(err);
-                    });
-            }
-
-            function buildUrl() {
-                const params = new URLSearchParams(new FormData(form));
-                return `${form.action}?${params.toString()}`;
-            }
-
-            function bindPaginationLinks() {
-                document.querySelectorAll('#pagination a').forEach(a => {
-                    a.addEventListener('click', e => {
-                        e.preventDefault();
-                        ajaxLoad(a.href);
-                    });
-                });
-            }
-
-            if (input) {
-                input.addEventListener('input', () => {
-                    ajaxLoad(buildUrl());
-                });
-            }
-            bindPaginationLinks();
+            // Filtro en tiempo real
+            $('#searchSemillero').on('keyup', function() {
+                table.search(this.value).draw();
+            });
         });
     </script>
 @endsection

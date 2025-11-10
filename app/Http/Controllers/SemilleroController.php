@@ -4,24 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Models\Semillero;
 use Illuminate\Http\Request;
+use Illuminate\support\Str;
 
 class SemilleroController extends Controller
 {
     public function index(Request $request)
     {
-        $q = trim($request->input('q', ''));
+        // Si la petición es AJAX (desde DataTable)
+        if ($request->ajax()) {
+            $semilleros = Semillero::all()->map(function ($semillero) {
+            return [
+                'id'           => $semillero->id,
+                'imagen'       => asset('storage/' . $semillero->imagen),
+                'titulo'       => $semillero->titulo,
+                'descripcion'  => Str::limit($semillero->descripcion, 60),
+                'fecha'        => $semillero->created_at->format('Y-m-d'),
+                'acciones'     => view('container.semilleros.partials.actions', compact('semillero'))->render(),
+            ];
+        });
 
-        $semilleros = Semillero::when($q, function ($query) use ($q) {
-            $query->where('titulo', 'like', "%{$q}%")
-                ->orWhere('descripcion', 'like', "%{$q}%");
-        })
-            ->latest('created_at')
-            ->paginate(10)
-            ->appends(['q' => $q]);
+            return response()->json(['data' => $semilleros]);
+        }
 
-        return view('container.semilleros.index', compact('semilleros', 'q'));
+        // Si no es AJAX, devuelve la vista normal
+        return view('container.semilleros.index');
     }
-
 
     public function create()
     {
