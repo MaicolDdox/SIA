@@ -26,3 +26,8 @@
 <!-- CSS y JS personalizados -->
 <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 <script src="{{ asset('js/dashboard.js') }}"></script>
+
+{{-- app.css y app.js --}}
+@vite(['resources/css/app.css', 'resources/js/app.js'])
+
+

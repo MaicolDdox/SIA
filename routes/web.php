@@ -9,6 +9,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectFileController;
 use App\Http\Controllers\ProjectIntegranteController;
 use App\Http\Controllers\SemilleroController;
+use App\Http\Controllers\SemilleroFileController;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,21 @@ Route::get('/dashboard', function () {
 // Rutas protegidas
 // -------------------------
 Route::middleware(['auth'])->group(function () {
+
+    //====================================================
+    //Rutas para los archivos comprimidos de los Semilleros
+    //====================================================
+
+    Route::prefix('semilleros/{semillero}')->group(function () {
+        Route::post('/files', [SemilleroFileController::class, 'store'])
+           ->name('semillerosFile.files.store');
+
+        Route::get('/files/{semilleroFile}/download', [SemilleroFileController::class, 'download'])
+           ->name('semillerosFile.files.download');
+
+        Route::delete('/files/{semilleroFile}', [SemilleroFileController::class, 'destroy'])
+           ->name('semillerosFile.files.destroy');
+    });
 
     // -------------------------
     // Rutas de Semilleros
@@ -62,15 +78,21 @@ Route::middleware(['auth'])->group(function () {
      Route::delete('projects/{project}/fases/{fase}/documento', [ProjectController::class, 'destroyFaseDocumento'])
      ->name('projects.fases.documento.destroy');
 
-     Route::prefix('projects/{project}')->group(function () {
-         Route::post('/files', [ProjectFileController::class, 'store'])->name('projects.files.store');
-     });
 
-     Route::get('/files/{file}/download', [ProjectFileController::class, 'download'])
-     ->name('projects.files.download');
-     
-     Route::delete('/files/{file}', [ProjectFileController::class, 'destroy'])
-     ->name('projects.files.destroy');
+     //====================================================
+     //Rutas para los archivos comprimidos de los proyectos
+     //====================================================
+
+     Route::prefix('projects/{project}')->group(function () {
+         Route::post('/files', [ProjectFileController::class, 'store'])
+            ->name('projects.files.store');
+
+         Route::get('/files/{file}/download', [ProjectFileController::class, 'download'])
+            ->name('projects.files.download');
+
+        Route::delete('/files/{file}', [ProjectFileController::class, 'destroy'])
+            ->name('projects.files.destroy');
+     });
 
     Route::resource('projects', ProjectController::class);
 

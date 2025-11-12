@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
 
@@ -70,9 +71,9 @@ class ProjectIntegranteController extends Controller
         // Recorremos los integrantes seleccionados
         foreach ($request->integrantes as $integranteId) {
             $integrante = User::findOrFail($integranteId);
-            
+
             // Verificamos si el integrante ya está en otro proyecto
-            $proyectoExistente = \DB::table('project_user')
+            $proyectoExistente = DB::table('project_user')
                 ->where('user_id', $integranteId)
                 ->where('project_id', '!=', $project->id)
                 ->first();

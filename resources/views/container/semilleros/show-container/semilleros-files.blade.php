@@ -1,4 +1,4 @@
-<div class="bg-card rounded-lg shadow-sm border border-border overflow-hidden mb-6">
+<div class="bg-card rounded-lg shadow-sm border border-border overflow-hidden mb-6 mt-5">
     <div class="px-6 py-4 border-b border-border bg-muted/30">
         <div class="flex items-center space-x-3">
             <div class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
@@ -16,7 +16,8 @@
 
     <div class="p-6 space-y-6">
         {{-- Tabla de archivos --}}
-        @if ($project->files->count())
+        @if ($semillero->semilleroFiles->count())
+
             <div class="overflow-x-auto">
                 <table class="min-w-full">
                     <thead>
@@ -54,7 +55,8 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
-                        @foreach ($project->files as $file)
+                        @foreach ($semillero->semilleroFiles as $file)
+
                             <tr class="hover:bg-gray-50/50 transition-colors duration-200">
                                 <td class="px-6 py-4">
                                     <div class="flex items-center space-x-3">
@@ -77,7 +79,7 @@
                                 <td class="px-6 py-4">
                                     <div class="flex items-center justify-center space-x-2">
                                         {{-- Botón descargar --}}
-                                        <a href="{{ route('projects.files.download', $file->id) }}"
+                                        <a href="{{ route('semillerosFile.files.download', ['semillero' => $semillero->id, 'semilleroFile' => $file->id]) }}"
                                             class="inline-flex items-center space-x-2 px-4 py-2 bg-green-50 hover:bg-green-100 text-green-700 hover:text-green-800 rounded-lg text-sm font-medium transition-all duration-200 border border-green-200 hover:border-green-300"
                                             title="Descargar archivo">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor"
@@ -90,7 +92,7 @@
                                         </a>
 
                                         {{-- Botón eliminar --}}
-                                        <form action="{{ route('projects.files.destroy', $file->id) }}" method="POST"
+                                        <form action="{{ route('semillerosFile.files.destroy', ['semillero' => $semillero->id, 'semilleroFile' => $file->id]) }}" method="POST"
                                             class="inline-block" onsubmit="return confirm('¿Eliminar este archivo?');">
                                             @csrf
                                             @method('DELETE')
@@ -108,11 +110,11 @@
                                     </div>
                                 </td>
                             </tr>
-                        @endforeach
+                         @endforeach
                     </tbody>
                 </table>
             </div>
-        @else
+            @else
             <div class="text-center py-12">
                 <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -126,7 +128,7 @@
         @endif
         {{-- Formulario para subir nuevo archivo --}}
         <div class="pt-6 border-t border-gray-200">
-            <form action="{{ route('projects.files.store', $project->id) }}" method="POST"
+            <form action="{{ route('semillerosFile.files.store', $semillero->id) }}" method="POST"
                 enctype="multipart/form-data" class="space-y-4">
                 @csrf
 

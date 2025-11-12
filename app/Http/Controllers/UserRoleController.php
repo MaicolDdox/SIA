@@ -17,7 +17,7 @@ class UserRoleController extends Controller
     {
         // Obtener usuarios que no tienen roles asignados usando Laravel Permission
         // Consultamos directamente la tabla pivot model_has_roles
-        $userIdsWithRoles = \DB::table('model_has_roles')
+        $userIdsWithRoles = DB::table('model_has_roles')
             ->where('model_type', User::class)
             ->pluck('model_id')
             ->toArray();
@@ -45,7 +45,7 @@ class UserRoleController extends Controller
             $user = User::findOrFail($request->user_id);
 
             // Verificar que el usuario no tenga roles asignados usando Laravel Permission
-            $hasRoles = \DB::table('model_has_roles')
+            $hasRoles = DB::table('model_has_roles')
                 ->where('model_type', User::class)
                 ->where('model_id', $user->id)
                 ->exists();

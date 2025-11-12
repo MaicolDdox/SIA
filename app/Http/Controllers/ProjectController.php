@@ -83,11 +83,9 @@ class ProjectController extends Controller
     }
 
 
-
-
     public function show(Project $project)
     {
-        $project->load(['fases', 'integrantes', 'semillero', 'director']);
+        $project->load(['fases', 'integrantes', 'semillero', 'director', 'files']);
         return view('container.projects.show', compact('project'));
     }
 

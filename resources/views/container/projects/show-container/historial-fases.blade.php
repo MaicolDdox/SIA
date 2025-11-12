@@ -122,8 +122,13 @@
                                             @csrf
 
                                             {{-- Componente de carga de archivos mejorado --}}
-                                            <x-file-upload-inline name="documento" accept=".pdf,.doc,.docx"
-                                                :required="true" />
+                                            <x-file-upload-inline
+                                                name="documento"
+                                                accept=".pdf,.doc,.docx"
+                                                :required="true"
+                                                label="Subir archivo comprimido"
+                                                hint="Solo formatos PDF O WORD"
+                                                />
 
                                             {{-- Botón de subir mejorado --}}
                                             <button type="submit"

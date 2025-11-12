@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Semillero;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\support\Str;
 
 class SemilleroController extends Controller
 {
+
     public function index(Request $request)
     {
         // Si la petición es AJAX (desde DataTable)
@@ -60,6 +63,7 @@ class SemilleroController extends Controller
 
     public function show(Semillero $semillero)
     {
+        $semillero->load(['semilleroFiles']);
         return view('container.semilleros.show', compact('semillero'));
     }
 
@@ -81,8 +85,8 @@ class SemilleroController extends Controller
         // Si se subió una nueva imagen
         if ($request->hasFile('imagen')) {
             // Borrar imagen anterior si existe
-            if ($semillero->imagen && \Storage::disk('public')->exists($semillero->imagen)) {
-                \Storage::disk('public')->delete($semillero->imagen);
+            if ($semillero->imagen && Storage::disk('public')->exists($semillero->imagen)) {
+                Storage::disk('public')->delete($semillero->imagen);
             }
 
             // Guardar nueva
@@ -99,14 +103,30 @@ class SemilleroController extends Controller
 
     public function destroy(Semillero $semillero)
     {
+
+        //verificamos que antes de borrar el semillero
+        //no tenga proyectos creados o pendientes
+        $verifySemillero = DB::table('projects')
+                        ->where('semillero_id', $semillero->id)
+                        ->exists();
+
+        if ($verifySemillero) {
+            return redirect()->route('semilleros.index')
+                             ->with('error', 'no se puede borrar el semillero por que tiene proyectos pendientes');
+        }else {
+
         // Borrar imagen asociada si existe
-        if ($semillero->imagen && \Storage::disk('public')->exists($semillero->imagen)) {
-            \Storage::disk('public')->delete($semillero->imagen);
+        if ($semillero->imagen && Storage::disk('public')->exists($semillero->imagen)) {
+            Storage::disk('public')->delete($semillero->imagen);
         }
 
+        //borramos semillero
         $semillero->delete();
 
+        //redireccionamos a la tabla index
         return redirect()->route('semilleros.index')
             ->with('success', 'Semillero eliminado correctamente.');
+        }
+
     }
 }

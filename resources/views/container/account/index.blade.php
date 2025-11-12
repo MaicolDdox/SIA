@@ -22,24 +22,8 @@
             </div>
         </div>
 
-        {{-- Aplicando mensaje de éxito estandarizado SENA --}}
-        @if (session('success'))
-            <div
-                class="mb-6 bg-primary/10 border border-primary/20 text-primary px-4 py-3 rounded-lg flex items-center space-x-3">
-                <svg
-                    class="w-5 h-5 flex-shrink-0"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span class="font-medium">{{ session('success') }}</span>
-            </div>
-        @endif
+        {{-- Mensajes de confirmacion --}}
+        @include('partials.session-message')
 
         {{-- Aplicando diseño de card estandarizado SENA --}}
         <div class="bg-card rounded-lg shadow-sm border border-border overflow-visible">
