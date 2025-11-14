@@ -31,25 +31,27 @@ Route::get('/dashboard', function () {
 // -------------------------
 Route::middleware(['auth'])->group(function () {
 
+    // -------------------------
+    // Rutas de Semilleros
+    // -------------------------
+    Route::resource('semilleros', SemilleroController::class);
+
     //====================================================
     //Rutas para los archivos comprimidos de los Semilleros
     //====================================================
 
     Route::prefix('semilleros/{semillero}')->group(function () {
-        Route::post('/files', [SemilleroFileController::class, 'store'])
-           ->name('semillerosFile.files.store');
+    Route::post('/files', [SemilleroFileController::class, 'store'])
+        ->name('semillerosFile.files.store');
 
-        Route::get('/files/{semilleroFile}/download', [SemilleroFileController::class, 'download'])
-           ->name('semillerosFile.files.download');
+    Route::get('/files/{semilleroFile}/download', [SemilleroFileController::class, 'download'])
+        ->name('semillerosFile.files.download');
 
-        Route::delete('/files/{semilleroFile}', [SemilleroFileController::class, 'destroy'])
-           ->name('semillerosFile.files.destroy');
-    });
+    Route::delete('/files/{semilleroFile}', [SemilleroFileController::class, 'destroy'])
+        ->name('semillerosFile.files.destroy');
+});
 
-    // -------------------------
-    // Rutas de Semilleros
-    // -------------------------
-    Route::resource('semilleros', SemilleroController::class);
+
 
     // / -------------------------
     // Rutas de Fases de Proyecto
