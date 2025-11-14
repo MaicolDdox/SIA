@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Semillero;
 use App\Models\SemilleroFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Semillero;
 
 class SemilleroFileController extends Controller
 {
-     // Subir archivo
+    // ============================
+    //  SUBIR ARCHIVO
+    // ============================
     public function store(Request $request, Semillero $semillero)
     {
         $request->validate([
@@ -17,32 +19,50 @@ class SemilleroFileController extends Controller
         ]);
 
         $file = $request->file('archivo');
-        $path = $file->store('semillero_file', 'public');
 
+        // Guardar archivo
+        $path = $file->store('semillero_files', 'public');
+
+        // Crear registro en DB vinculado al semillero
         $semillero->semilleroFiles()->create([
             'nombre_original' => $file->getClientOriginalName(),
-            'ruta' => $path,
+            'ruta'            => $path,
         ]);
 
-        return back()->with('success', 'Archivo agregado correctamente.');
+        return back()->with('success', 'Archivo subido correctamente.');
     }
 
-    // Descargar (opcional: forzar descarga)
-    public function download(SemilleroFile $semilleroFile)
+    // ============================
+    //  DESCARGAR ARCHIVO
+    // ============================
+    public function download(Semillero $semillero, SemilleroFile $semilleroFile)
     {
-        return Storage::disk('public')->download($semilleroFile->ruta, $semilleroFile->nombre_original);
-    }
-
-    // Eliminar archivo
-    public function destroy(SemilleroFile $file)
-    {
-        if ($file->ruta && Storage::disk('public')->exists($file->ruta)) {
-            Storage::disk('public')->delete($file->ruta);
+        // Verificar que el archivo pertenece al semillero
+        if ($semilleroFile->semillero_id !== $semillero->id) {
+            abort(403, 'Este archivo no pertenece a este semillero.');
         }
-    
-        $file->delete();
-    
+
+        return Storage::disk('public')->download(
+            $semilleroFile->ruta,
+            $semilleroFile->nombre_original
+        );
+    }
+
+    // ============================
+    //  ELIMINAR ARCHIVO
+    // ============================
+    public function destroy(Semillero $semillero, SemilleroFile $semilleroFile)
+    {
+        if ($semilleroFile->semillero_id !== $semillero->id) {
+            abort(403, 'Este archivo no pertenece a este semillero.');
+        }
+
+        // Eliminar archivo del storage
+        Storage::disk('public')->delete($semilleroFile->ruta);
+
+        // Eliminar registro DB
+        $semilleroFile->delete();
+
         return back()->with('success', 'Archivo eliminado correctamente.');
     }
-
 }
