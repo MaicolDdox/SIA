@@ -28,21 +28,28 @@ class SemilleroFileController extends Controller
     }
 
     // Descargar (opcional: forzar descarga)
-    public function download(SemilleroFile $semilleroFile)
+    public function download(SemilleroFile $file)
     {
-        return Storage::disk('public')->download($semilleroFile->ruta, $semilleroFile->nombre_original);
+        return Storage::disk('public')->download($file->ruta, $file->nombre_original);
     }
 
     // Eliminar archivo
     public function destroy(SemilleroFile $file)
     {
-        if ($file->ruta && Storage::disk('public')->exists($file->ruta)) {
+        try
+        {
+            if ($file->ruta && Storage::disk('public')->exists($file->ruta))
+            {
             Storage::disk('public')->delete($file->ruta);
+            }
+
+            $file->delete();
+
+            return back()->with('success', 'Archivo eliminado correctamente.');
+
+        } catch (\Throwable $th) {
+            return back()->with('error', 'Surgio algo inesperado' . $th);
         }
-    
-        $file->delete();
-    
-        return back()->with('success', 'Archivo eliminado correctamente.');
     }
 
 }

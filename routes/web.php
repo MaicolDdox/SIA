@@ -51,7 +51,7 @@ Route::middleware(['auth'])->group(function () {
     // -------------------------
     Route::resource('semilleros', SemilleroController::class);
 
-    // / -------------------------
+    // -------------------------
     // Rutas de Fases de Proyecto
     // -------------------------
     Route::prefix('projects/{project}/fases')->group(function () {
