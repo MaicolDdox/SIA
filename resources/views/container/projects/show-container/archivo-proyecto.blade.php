@@ -77,7 +77,7 @@
                                 <td class="px-6 py-4">
                                     <div class="flex items-center justify-center space-x-2">
                                         {{-- Botón descargar --}}
-                                        <a href="{{ route('projects.files.download', $file->id) }}"
+                                        <a href="{{ route('projects.files.download', ['project' => $project->id, 'file' => $file->id]) }}"
                                             class="inline-flex items-center space-x-2 px-4 py-2 bg-green-50 hover:bg-green-100 text-green-700 hover:text-green-800 rounded-lg text-sm font-medium transition-all duration-200 border border-green-200 hover:border-green-300"
                                             title="Descargar archivo">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor"
@@ -90,7 +90,7 @@
                                         </a>
 
                                         {{-- Botón eliminar --}}
-                                        <form action="{{ route('projects.files.destroy', $file->id) }}" method="POST"
+                                        <form action="{{ route('projects.files.destroy', ['project' => $project->id, 'file' => $file->id]) }}" method="POST"
                                             class="inline-block" onsubmit="return confirm('¿Eliminar este archivo?');">
                                             @csrf
                                             @method('DELETE')
