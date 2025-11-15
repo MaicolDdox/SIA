@@ -19,6 +19,9 @@
 <!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com"></script>
 
+{{-- style TombSelect --}}
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css" rel="stylesheet">
+
 <!-- ApexCharts (solo si usas gráficos) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts/dist/apexcharts.css">
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>

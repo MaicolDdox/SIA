@@ -115,23 +115,13 @@
                             required>
                             <option value="">Seleccione un semillero</option>
                             @forelse($semilleros as $semillero)
-                                <option value="{{ $semillero->id }}"
-                                    {{ old('semillero_id') == $semillero->id ? 'selected' : '' }}>
+                                <option value="{{ $semillero->id }}">
                                     {{ $semillero->titulo }}
                                 </option>
                             @empty
                                 <option disabled>No hay semilleros registrados</option>
                             @endforelse
                         </select>
-                        @error('semillero_id')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                        @enderror
-
-                        @error('semillero_id')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                        @enderror
-
-
                         @error('semillero_id')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
@@ -196,51 +186,32 @@
         </div>
     </div>
 
+    <!-- TomSelect JS -->
+    <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+
+
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            // Select para proyectos (solo uno)
-            new TomSelect("#project_id", {
+            // Select para usuarios con búsqueda
+            new TomSelect("#semillero_id", {
                 create: false,
-                searchField: ["text"], 
-                persist: false,
-                maxItems: 1,
                 sortField: {
                     field: "text",
                     direction: "asc"
                 },
-                placeholder: "Seleccione un proyecto...",
+                placeholder: "Buscar Semillero Por Nombre",
+                searchField: ['text'],
                 render: {
                     option: function(data, escape) {
-                        return `<div class="px-3 py-2 hover:bg-gray-100 cursor-pointer">${escape(data.text)}</div>`;
-                    },
-                    item: function(data, escape) {
-                        return `<div class="px-2 py-1 bg-primary/10 rounded-md">${escape(data.text)}</div>`;
-                    }
-                }
-            });
-
-            // Select para aprendices (pueden ser varios)
-            new TomSelect("#integrantes", {
-                plugins: ["remove_button"],
-                create: false,
-                searchField: ["text"], 
-                persist: false,
-                maxItems: null, // permite varios
-                sortField: {
-                    field: "text",
-                    direction: "asc"
-                },
-                placeholder: "Seleccione integrantes...",
-                render: {
-                    option: function(data, escape) {
-                        return `<div class="px-3 py-2 hover:bg-gray-100 cursor-pointer">${escape(data.text)}</div>`;
-                    },
-                    item: function(data, escape) {
-                        return `<div class="px-2 py-1 bg-primary/10 rounded-md">${escape(data.text)}</div>`;
+                              return `
+                            <div class="py-2 px-3 hover:bg-gray-100">
+                                <div class="font-medium">${escape(data.text)}</div>
+                            </div>`;
                     }
                 }
             });
         });
+
     </script>
 
 
