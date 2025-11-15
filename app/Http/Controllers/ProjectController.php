@@ -7,6 +7,7 @@ use App\Models\Semillero;
 use App\Models\ProjectFase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 
@@ -14,35 +15,29 @@ class ProjectController extends Controller
 {
     public function index(Request $request)
     {
-        $user = auth()->user();
-        $q = trim($request->input('q', ''));
+        // Si la petición es AJAX (desde DataTable)
+        if ($request->ajax()) {
+            $projects = Project::with(['semillero', 'director'])
+            ->get()
+            ->map(function ($project) {
+            return [
+                'id'           => $project->id,
+                'semillero_id' => $project->semillero->titulo,
+                'director_id'  => $project->director->name,
+                'nombre'       => Str::limit($project->nombre, 20),
+                'fase_actual'  => $project->fase_actual,
+                'fecha_inicio' => $project->fecha_inicio,
+                'fecha_fin'    => $project->fecha_fin,
+                'acciones'     => view('container.projects.partials.actions', compact('project'))->render(),
+            ];
+        });
 
-        $query = Project::with(['semillero', 'director']);
-
-        if ($user->hasRole('lider_semilleros')) {
-            $query->where('director_id', $user->id);
+            return response()->json(['data' => $projects]);
         }
 
-        if ($q) {
-            $query->where(function ($sub) use ($q) {
-                $sub->where('nombre', 'like', "%{$q}%")
-                    ->orWhere('fase_actual', 'like', "%{$q}%")
-                    ->orWhereHas('semillero', function ($qSem) use ($q) {
-                        $qSem->where('titulo', 'like', "%{$q}%");
-                    })
-                    ->orWhereHas('director', function ($qDir) use ($q) {
-                        $qDir->where('name', 'like', "%{$q}%");
-                    });
-            });
-        }
-
-        $projects = $query->latest('created_at')
-            ->paginate(10)
-            ->appends(['q' => $q]);
-
-        return view('container.projects.index', compact('projects', 'q'));
+        // Si no es AJAX, devuelve la vista normal
+        return view('container.projects.index');
     }
-
 
 
     public function create()

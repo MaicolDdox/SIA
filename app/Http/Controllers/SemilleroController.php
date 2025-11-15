@@ -19,7 +19,7 @@ class SemilleroController extends Controller
             return [
                 'id'           => $semillero->id,
                 'imagen'       => asset('storage/' . $semillero->imagen),
-                'titulo'       => $semillero->titulo,
+                'titulo'       => Str::limit($semillero->titulo, 30),
                 'descripcion'  => Str::limit($semillero->descripcion, 60),
                 'fecha'        => $semillero->created_at->format('Y-m-d'),
                 'acciones'     => view('container.semilleros.partials.actions', compact('semillero'))->render(),
