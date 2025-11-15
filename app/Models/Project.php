@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Project extends Model
 {
@@ -45,7 +46,7 @@ class Project extends Model
             ->withPivot('rol'); // Si quieres acceder al rol del aprendiz en el proyecto
     }
 
-    public function files()
+    public function files():HasMany
     {
         return $this->hasMany(ProjectFile::class);
     }
